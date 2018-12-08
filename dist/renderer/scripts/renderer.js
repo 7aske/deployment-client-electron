@@ -295,17 +295,27 @@ function openExternal(event) {
 }
 function fromListExecute(event) {
     var target = event.target;
+    var dataAction = target.attributes.getNamedItem("data-action").value;
     event.preventDefault();
+    console.log(dataAction);
     setTimeout(function () {
         footerUp();
     }, 100);
-    // noinspection JSIgnoredPromiseFromCall
-    execute({
-        path: actions[target.attributes.getNamedItem("data-action").value].action,
-        data: {
-            query: target.attributes.getNamedItem("data-id").value
-        }
-    });
+    if (dataAction == "openBtn") {
+        var url = target.attributes.getNamedItem("data-url").value;
+        openUrl(url);
+    }
+    else {
+        var id = target.attributes.getNamedItem("data-id").value;
+        var action = actions[dataAction].action;
+        // noinspection JSIgnoredPromiseFromCall
+        execute({
+            path: action,
+            data: {
+                query: id
+            }
+        });
+    }
 }
 function execute(payload) {
     return __awaiter(this, void 0, void 0, function () {

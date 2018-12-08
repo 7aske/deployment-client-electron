@@ -288,17 +288,27 @@ function openExternal(event: Event) {
 
 function fromListExecute(event: Event) {
 	const target = event.target as HTMLElement;
+	const dataAction = target.attributes.getNamedItem("data-action").value;
 	event.preventDefault();
+	console.log(dataAction);
 	setTimeout(() => {
 		footerUp();
 	}, 100);
-	// noinspection JSIgnoredPromiseFromCall
-	execute({
-		path: actions[target.attributes.getNamedItem("data-action").value].action,
-		data: {
-			query: target.attributes.getNamedItem("data-id").value
-		}
-	});
+	if (dataAction == "openBtn") {
+		const url = target.attributes.getNamedItem("data-url").value;
+		openUrl(url);
+	} else {
+		const id = target.attributes.getNamedItem("data-id").value;
+		const action = actions[dataAction].action;
+		// noinspection JSIgnoredPromiseFromCall
+		execute({
+			path: action,
+			data: {
+				query: id
+			}
+		});
+	}
+
 }
 
 async function execute(payload: any) {

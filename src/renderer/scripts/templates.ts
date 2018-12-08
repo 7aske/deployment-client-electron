@@ -20,15 +20,15 @@ function mainTemplate(server: any, serverUrl: any, i?: number) {
 						${server.name}<br \><small class="text-secondary">${server.repo}</small>
 					</h4>
 					<div class="col-md-6 col-sm-12 d-flex justify-content-md-end justify-content-sm-around">
+						<button class="btn btn-info" data-id="${server.id}" data-url="http://${serverUrl.hostname}:${server.port}" data-action="openBtn" onclick="fromListExecute(event)">
+							<i class="material-icons">open_in_new</i>
+							<span class="tooltiptext">Open</span>
+						</button>
 						<button class="btn btn-primary" data-id="${server.id}" data-action="updateBtn" onclick="fromListExecute(event)">
 							<i class="material-icons">sync</i><span class="tooltiptext">Update</span></button>
 						<button class="btn btn-warning" data-id="${server.id}" data-action="killBtn" onclick="fromListExecute(event)">
 							<i class="material-icons">report</i>
 							<span class="tooltiptext">Kill</span>
-						</button>
-						<button class="btn btn-danger" data-id="${server.id}" data-action="removeBtn" onclick="fromListExecute(event)">
-							<i class="material-icons">delete</i>
-							<span class="tooltiptext">Remove</span>
 						</button>
 						<button class="btn btn-secondary" data-id="${server.id}" data-action="clearBtn" onclick="fromListExecute(event)">
 							<i class="material-icons">short_text</i>
