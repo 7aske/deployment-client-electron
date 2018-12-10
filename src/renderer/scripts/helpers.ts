@@ -6,11 +6,19 @@ interface Storage {
 	url: { hostname: string; port: number };
 }
 
+function formatUrl(hostname: string, port: number | string): string {
+	if (port == 443) {
+		return `https://${hostname}:${port}`;
+	} else {
+		return `http://${hostname}:${port}`;
+	}
+}
+
 function getUrl() {
 	if (electron == undefined || electron == null) {
 		const storage = JSON.parse(localStorage.getItem("config")) as Storage;
 		if (!storage) {
-			const url =  {hostname: "7aske.servebeer.com", port: 80};
+			const url = {hostname: "7aske.servebeer.com", port: 80};
 			localStorage.setItem("config", JSON.stringify({url}));
 			return url;
 		} else {
@@ -35,5 +43,11 @@ function saveUrl(url: any) {
 		localStorage.setItem("config", JSON.stringify({url}));
 	} else {
 		electron.ipcRenderer.send("update:serverUrl", url);
+	}
+}
+
+function promptAuth() {
+	if (!(electron == undefined || electron == null)) {
+		electron.ipcRenderer.send("open:popup");
 	}
 }

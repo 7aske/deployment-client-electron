@@ -1,7 +1,4 @@
 "use strict";
-// import axios from "axios";
-// import { deployedTemplate, mainTemplate } from "./templates";
-// import helpers from "./helpers";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -37,15 +34,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+// import axios from "axios";
+// import { deployedTemplate, mainTemplate } from "./templates";
+// import helpers from "./helpers";
 var serverUrl = getUrl();
-function formatUrl(hostname, port) {
-    if (port == 443) {
-        return "https://" + hostname + ":" + port;
-    }
-    else {
-        return "http://" + hostname + ":" + port;
-    }
-}
 var actions = {
     deployBtn: {
         action: "deploy",
@@ -214,7 +206,6 @@ var sidebarButtons = document.querySelectorAll("nav .dropdown .btn");
 sidebarButtons.forEach(function (btn) {
     btn.addEventListener("click", function (event) {
         var target = event.target;
-        console.log(target);
         if (target.id == "refreshBtn")
             return false;
         currentAction = actions[btn.id];
@@ -297,7 +288,6 @@ function fromListExecute(event) {
     var target = event.target;
     var dataAction = target.attributes.getNamedItem("data-action").value;
     event.preventDefault();
-    console.log(dataAction);
     setTimeout(function () {
         footerUp();
     }, 100);
@@ -327,7 +317,6 @@ function execute(payload) {
                     loaders.forEach(function (loader) {
                         loader.classList.remove("hide");
                     });
-                    console.log(payload.data);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 4, , 5]);
@@ -341,10 +330,11 @@ function execute(payload) {
                         })];
                 case 2:
                     data = _a.sent();
+                    if (data.status == 401)
+                        throw new Error("Unauthorized");
                     return [4 /*yield*/, data.json()];
                 case 3:
                     servers = _a.sent();
-                    console.log(servers);
                     loaders.forEach(function (loader) {
                         loader.classList.add("hide");
                     });
@@ -373,6 +363,9 @@ function execute(payload) {
                     return [3 /*break*/, 5];
                 case 4:
                     e_1 = _a.sent();
+                    if (e_1.message == "Unauthorized") {
+                        promptAuth();
+                    }
                     loaders.forEach(function (loader) {
                         loader.classList.add("hide");
                     });

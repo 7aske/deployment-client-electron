@@ -8,6 +8,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 var electron = null;
 Promise.resolve().then(function () { return __importStar(require("electron")); }).then(function (e) { return electron = e; }).catch(function () { return electron = undefined; });
+function formatUrl(hostname, port) {
+    if (port == 443) {
+        return "https://" + hostname + ":" + port;
+    }
+    else {
+        return "http://" + hostname + ":" + port;
+    }
+}
 function getUrl() {
     if (electron == undefined || electron == null) {
         var storage = JSON.parse(localStorage.getItem("config"));
@@ -39,5 +47,10 @@ function saveUrl(url) {
     }
     else {
         electron.ipcRenderer.send("update:serverUrl", url);
+    }
+}
+function promptAuth() {
+    if (!(electron == undefined || electron == null)) {
+        electron.ipcRenderer.send("open:popup");
     }
 }

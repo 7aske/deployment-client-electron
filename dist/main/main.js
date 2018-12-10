@@ -7,7 +7,6 @@ var electron_1 = require("electron");
 var electron_is_dev_1 = __importDefault(require("electron-is-dev"));
 var fs_1 = require("fs");
 var path_1 = require("path");
-console.log(process.cwd());
 // interface PATHS {
 // 	node: string;
 // 	npm: string;
@@ -20,51 +19,75 @@ if (!fs_1.existsSync(configFolderPath)) {
 }
 if (!fs_1.existsSync(configFilePath)) {
     fs_1.writeFileSync(configFilePath, JSON.stringify({
-        url: { hostname: "localhost", port: "3000" }
+        url: { hostname: "localhost", port: "80" }
     }), "utf8");
 }
 var configFile = JSON.parse(fs_1.readFileSync(configFilePath, "utf8"));
 global.config = configFile;
-// const PATHS: PATHS = {
-// 	node: "node",
-// 	npm: "npm"
-// };
-// if (process.platform == "linux") {
-// 	PATHS.node = execSync("which node")
-// 		.toString()
-// 		.split("\n")[0];
-// 	PATHS.npm = execSync("which npm")
-// 		.toString()
-// 		.split("\n")[0];
-// } else if (process.platform == "win32") {
-// 	PATHS.node = execSync("where node")
-// 		.toString()
-// 		.split("\r\n")[0];
-// 	PATHS.npm = execSync("where npm")
-// 		.toString()
-// 		.split("\r\n")[1];
-// }
 var window;
+var popup;
 function createWindow() {
     window = new electron_1.BrowserWindow({
         backgroundColor: "#2e2c29",
-        height: 1080,
+        height: 1024,
         icon: path_1.join(root, "dist/renderer/icons/default.png"),
         titleBarStyle: "hiddenInset",
-        width: 1920
+        width: 1280
     });
     if (!electron_is_dev_1.default)
         window.setMenu(null);
     window.loadFile(path_1.join(root, "dist/renderer/views/renderer.html"));
     window.on("closed", function () {
         window = null;
+        if (popup)
+            popup.close();
     });
+}
+function createPopup() {
+    if (!popup) {
+        popup = new electron_1.BrowserWindow({
+            center: true,
+            height: 125,
+            width: 200,
+            // resizable: false,
+            title: "Popup",
+            titleBarStyle: "hiddenInset"
+        });
+        popup.loadFile(path_1.join(root, "dist/main/popup.html"));
+        // popup.setMenu(null);
+        setTimeout(function () {
+            popup.webContents.send("send:url", global.config.url);
+        }, 200);
+        popup.on("closed", function () {
+            popup = null;
+        });
+    }
+    else {
+        popup.close();
+        popup = null;
+        createPopup();
+    }
 }
 electron_1.app.on("ready", createWindow);
 electron_1.app.on("window-all-closed", function () {
     fs_1.writeFileSync(configFilePath, JSON.stringify(global.config), "utf8");
     electron_1.app.quit();
     process.kill(0);
+});
+electron_1.ipcMain.on("open:popup", function () {
+    createPopup();
+});
+electron_1.ipcMain.on("close:popup", function () {
+    if (popup) {
+        popup.close();
+        popup = null;
+    }
+});
+electron_1.ipcMain.on("set:cookie", function (event, data) {
+    console.log(data);
+    electron_1.session.defaultSession.cookies.set({ url: "localhost", path: "/", name: "auth", value: data.auth }, function () { return void 0; });
+    electron_1.session.defaultSession.cookies.get({ name: "auth" }, function (err, cookies) { return console.log(cookies); });
+    window.webContents.session.cookies.set({ url: "localhost", path: "/", name: "auth", value: data.auth }, function () { return void 0; });
 });
 electron_1.ipcMain.on("update:serverUrl", function (event, data) {
     global.config.url = { hostname: data.hostname, port: data.port };

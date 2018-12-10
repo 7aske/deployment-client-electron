@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+    <title>Document</title>
+    <style>
+        html, body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="form-inline my-2 my-lg-0">
+    <input id="passwordInp" class="form-control mr-sm-2" type="password" placeholder="Search" aria-label="Search">
+    <button id="submitBtn" class="btn btn-outline-success my-2 my-sm-0" onclick="sendPassword()" type=button>Confirm
+    </button>
+</div>
+<script src="../renderer/scripts/helpers.js"></script>
+<script async>
+
+    electron.ipcRenderer.on("send:url", data => {
+        console.log(data);
+    })
+    async function sendPassword() {
+        const password = document.querySelector("#passwordInp").value;
+        const url = formatUrl(getUrl().hostname, getUrl().port);
+        console.log(url);
+        console.log(password);
+        const response = await fetch(url + "/auth", {
+            method: "post", headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            }, body: JSON.stringify({password: password})
+        });
+        const cookie = (await response.json()).token;
+        electron.ipcRenderer.send("set:cookie", cookie);
+        // electron.ipcRenderer.send("close:popup");
+    }
+</script>
+</body>
+</html>

@@ -1,16 +1,7 @@
 // import axios from "axios";
 // import { deployedTemplate, mainTemplate } from "./templates";
 // import helpers from "./helpers";
-
 const serverUrl = getUrl();
-
-function formatUrl(hostname: string, port: number | string): string {
-	if (port == 443) {
-		return `https://${hostname}:${port}`;
-	} else {
-		return `http://${hostname}:${port}`;
-	}
-}
 
 interface Action {
 	action?: string;
@@ -203,7 +194,6 @@ const sidebarButtons = document.querySelectorAll("nav .dropdown .btn");
 sidebarButtons.forEach(btn => {
 	btn.addEventListener("click", event => {
 		const target = event.target as HTMLElement;
-		console.log(target);
 		if (target.id == "refreshBtn") return false;
 		currentAction = actions[btn.id];
 		sidebarButtons.forEach(b => {
@@ -290,7 +280,6 @@ function fromListExecute(event: Event) {
 	const target = event.target as HTMLElement;
 	const dataAction = target.attributes.getNamedItem("data-action").value;
 	event.preventDefault();
-	console.log(dataAction);
 	setTimeout(() => {
 		footerUp();
 	}, 100);
@@ -321,7 +310,6 @@ async function execute(payload: any) {
 	});
 	let data: Response;
 	let servers: any;
-	console.log(payload.data);
 
 	try {
 		data = await fetch(`${url}/${payload.path}`, {
@@ -332,8 +320,8 @@ async function execute(payload: any) {
 			},
 			body: JSON.stringify(payload.data)
 		});
+		if (data.status == 401) throw new Error("Unauthorized");
 		servers = await data.json();
-		console.log(servers);
 		loaders.forEach(loader => {
 			loader.classList.add("hide");
 		});
@@ -359,6 +347,9 @@ async function execute(payload: any) {
 			render(sorted, payload.path);
 		}
 	} catch (e) {
+		if (e.message == "Unauthorized") {
+			promptAuth();
+		}
 		loaders.forEach(loader => {
 			loader.classList.add("hide");
 		});
