@@ -346,8 +346,10 @@ async function execute(payload: any) {
 		loaders.forEach(loader => {
 			loader.classList.add("hide");
 		});
-		deployedContainer.innerHTML = "Server not running on selected host";
-		runningContainer.innerHTML = "Server not running on selected host";
+		deployedContainer.innerHTML =
+			'<br>&nbsp;	Server not running on selected host<br><i style="font-size:72px; padding-top:32px" class="material-icons">sentiment_very_dissatisfied</i>';
+		runningContainer.innerHTML =
+			'<br>&nbsp;	Server not running on selected host<br><i style="font-size:72px; padding-top:32px" class="material-icons">sentiment_very_dissatisfied</i>';
 	}
 }
 

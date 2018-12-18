@@ -369,8 +369,10 @@ function execute(payload) {
                     loaders.forEach(function (loader) {
                         loader.classList.add("hide");
                     });
-                    deployedContainer.innerHTML = "Server not running on selected host";
-                    runningContainer.innerHTML = "Server not running on selected host";
+                    deployedContainer.innerHTML =
+                        '<br>&nbsp;	Server not running on selected host<br><i style="font-size:72px; padding-top:32px" class="material-icons">sentiment_very_dissatisfied</i>';
+                    runningContainer.innerHTML =
+                        '<br>&nbsp;	Server not running on selected host<br><i style="font-size:72px; padding-top:32px" class="material-icons">sentiment_very_dissatisfied</i>';
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }

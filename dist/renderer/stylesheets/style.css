@@ -183,16 +183,32 @@ main .material-icons {
 }
 
 @media screen and (max-width: 540px) {
-  footer {
-    position: absolute;
-    bottom: -14vh;
-  }
   html,
   body,
   main,
   footer,
   header {
     width: 100%;
-    overflow: hidden !important;
+    overflow-x: hidden !important;
+  }
+  header .collapse {
+    position: absolute;
+  }
+  main {
+    padding-bottom: 9vh;
+  }
+  main .card h4 {
+    font-size: 20px;
+  }
+  footer {
+    overflow: hidden;
+    position: absolute;
+    bottom: -9vh;
+  }
+}
+
+@media (orientation: landscape) {
+  footer {
+    display: none;
   }
 }
