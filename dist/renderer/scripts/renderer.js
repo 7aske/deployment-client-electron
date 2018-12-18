@@ -133,8 +133,7 @@ document.addEventListener("keydown", function (event) {
                     query: currentAction.placeholder
                 }
             });
-        else if (searchInp.value != "" &&
-            searchInp.classList.contains("focused")) {
+        else if (searchInp.value != "" && searchInp.classList.contains("focused")) {
             if (currentTab.name == "running") {
                 execute({
                     path: "find",
@@ -226,6 +225,7 @@ function footerUp() {
             btn.classList.add("active");
     });
     goInp.value = currentAction.placeholder;
+    goBtn.innerHTML = currentAction.action.toLocaleUpperCase();
     setTimeout(function () {
         goInp.focus();
     }, 100);

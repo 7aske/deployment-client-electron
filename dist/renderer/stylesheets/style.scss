@@ -1,6 +1,6 @@
 @font-face {
-	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Regular.ttf');
+	font-family: "Roboto";
+	src: url("../fonts/Roboto-Regular.ttf");
 }
 
 * {
@@ -8,7 +8,7 @@
 }
 
 * {
-	font-family: 'Roboto';
+	font-family: "Roboto";
 }
 body,
 html {
@@ -25,6 +25,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 6px #666666;
 	-webkit-box-shadow: inset 0 0 6px #666666;
 	//border-radius: 10px;
 }
@@ -32,6 +33,7 @@ html {
 ::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	background-color: #0061a7;
+	box-shadow: inset 0 0 6px #406ce4;
 	-webkit-box-shadow: inset 0 0 6px #406ce4;
 }
 nav {
@@ -41,7 +43,7 @@ nav {
 		border-radius: 10px;
 		padding-left: 10px;
 		&::before {
-			content: '-';
+			content: "-";
 		}
 	}
 	.dropdown {
@@ -50,9 +52,12 @@ nav {
 			background-color: #ffac37;
 			border-radius: 10px;
 			&::before {
-				content: '-';
+				content: "-";
 			}
 		}
+	}
+	#refreshButton {
+		display: inline;
 	}
 }
 footer {
@@ -67,19 +72,19 @@ footer {
 	background-color: #111111;
 	div {
 		.action-input {
-			input{
+			input {
 				width: 70%;
 			}
-			button{
+			button {
 				width: 30%;
 			}
 		}
 		.server-input {
-			input[type="text"]{
+			input[type="text"] {
 				width: 70%;
 			}
-			input[type="number"]{
-				width:30%;
+			input[type="number"] {
+				width: 30%;
 			}
 		}
 		input {
@@ -174,4 +179,22 @@ main {
 }
 .clickthrough {
 	pointer-events: none !important;
+}
+@media screen and (max-width: 540px) {
+	main {
+		position: absolute;
+	}
+	footer {
+		position: absolute;
+		bottom: -9vh;
+	}
+
+	html,
+	body,
+	main,
+	footer,
+	header {
+		width: 100%;
+		overflow: hidden !important;
+	}
 }

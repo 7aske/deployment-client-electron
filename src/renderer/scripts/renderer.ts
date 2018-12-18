@@ -28,21 +28,21 @@ const actions: Actions = {
 		placeholder: "https://github.com/7aske/portfolio",
 		name: "deployBtn"
 	},
-	updateBtn: {action: "update", placeholder: "", name: "updateBtn"},
-	runBtn: {action: "run", placeholder: "", name: "runBtn"},
-	killBtn: {action: "kill", placeholder: "", name: "killBtn"},
-	removeBtn: {action: "remove", placeholder: "", name: "removeBtn"},
+	updateBtn: { action: "update", placeholder: "", name: "updateBtn" },
+	runBtn: { action: "run", placeholder: "", name: "runBtn" },
+	killBtn: { action: "kill", placeholder: "", name: "killBtn" },
+	removeBtn: { action: "remove", placeholder: "", name: "removeBtn" },
 	findBtn: {
 		action: "find",
 		placeholder: "",
 		name: "findBtn"
 	},
-	clearBtn: {action: "clear", placeholder: "", name: "clearBtn"},
-	browseBtn: {action: "browse", placeholder: "", name: "browseBtn"}
+	clearBtn: { action: "clear", placeholder: "", name: "clearBtn" },
+	browseBtn: { action: "browse", placeholder: "", name: "browseBtn" }
 };
 const tabs = {
-	running: {name: "running"},
-	deployed: {name: "deployed"}
+	running: { name: "running" },
+	deployed: { name: "deployed" }
 };
 let currentTab = tabs.running;
 let currentAction = actions.findBtn;
@@ -117,10 +117,7 @@ document.addEventListener("keydown", event => {
 					query: currentAction.placeholder
 				}
 			});
-		else if (
-			searchInp.value != "" &&
-			searchInp.classList.contains("focused")
-		) {
+		else if (searchInp.value != "" && searchInp.classList.contains("focused")) {
 			if (currentTab.name == "running") {
 				execute({
 					path: "find",
@@ -196,6 +193,7 @@ sidebarButtons.forEach(btn => {
 		const target = event.target as HTMLElement;
 		if (target.id == "refreshBtn") return false;
 		currentAction = actions[btn.id];
+
 		sidebarButtons.forEach(b => {
 			b.classList.remove("active");
 		});
@@ -214,6 +212,7 @@ function footerUp() {
 		if (btn.id == currentAction.name) btn.classList.add("active");
 	});
 	goInp.value = currentAction.placeholder;
+	goBtn.innerHTML = currentAction.action.toLocaleUpperCase();
 	setTimeout(() => {
 		goInp.focus();
 	}, 100);
@@ -257,9 +256,7 @@ function collapseToggle(event: Event) {
 	const target = event.target as HTMLElement;
 	if (!target.classList.contains("card-header")) return false;
 	const bar = target;
-	const t = document.querySelector(
-		target.attributes.getNamedItem("data-target").value
-	);
+	const t = document.querySelector(target.attributes.getNamedItem("data-target").value);
 	// const next = t.parentElement.nextElementSibling;
 	if (bar.attributes.getNamedItem("aria-expanded").value == "true") {
 		t.classList.remove("show");
@@ -297,14 +294,10 @@ function fromListExecute(event: Event) {
 			}
 		});
 	}
-
 }
 
 async function execute(payload: any) {
-	const url = formatUrl(
-		getUrl().hostname,
-		getUrl().port
-	);
+	const url = formatUrl(getUrl().hostname, getUrl().port);
 	loaders.forEach(loader => {
 		loader.classList.remove("hide");
 	});
