@@ -183,12 +183,9 @@ main .material-icons {
 }
 
 @media screen and (max-width: 540px) {
-  main {
-    position: absolute;
-  }
   footer {
     position: absolute;
-    bottom: -9vh;
+    bottom: -14vh;
   }
   html,
   body,
