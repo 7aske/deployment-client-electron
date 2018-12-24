@@ -208,7 +208,7 @@ main {
 		bottom: -9vh;
 	}
 }
-@media (orientation: landscape) {
+@media screen and (max-width: 540px) and (orientation: landscape) {
 	footer {
 		display: none;
 	}
