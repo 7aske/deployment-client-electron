@@ -29,12 +29,12 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
+					<li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent.show">
 						<div id="tab0" class="nav-link cursor-pointer tab active" onclick="handleTabClick(event)">
 							Running
 						</div>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent.show">
 						<div id="tab1" class="nav-link cursor-pointer tab" onclick="handleTabClick(event)">
 							Deployed
 						</div>
@@ -61,7 +61,14 @@
 							<button class="dropdown-item text-light btn btn-dark" id="browseBtn">Browse</button>
 						</div>
 					</li>
-					<button class="nav-item btn btn-success" id="refreshBtn">Refresh</button>
+					<button
+						class="nav-item btn btn-success"
+						id="refreshBtn"
+						data-toggle="collapse"
+						data-target="#navbarSupportedContent.show"
+					>
+						Refresh
+					</button>
 				</ul>
 				<div class="form-inline my-2 my-lg-0">
 					<input
