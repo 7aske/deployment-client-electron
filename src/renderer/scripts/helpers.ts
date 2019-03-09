@@ -18,7 +18,7 @@ function getUrl() {
 	if (electron == undefined || electron == null) {
 		const storage = JSON.parse(localStorage.getItem("config")) as Storage;
 		if (!storage) {
-			const url = {hostname: "7aske.servebeer.com", port: 80};
+			const url = {hostname: location.hostname, port: 80};
 			localStorage.setItem("config", JSON.stringify({url}));
 			return url;
 		} else {
